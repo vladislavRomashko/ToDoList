@@ -1,3 +1,5 @@
+Created by Vladislav Romashko https://www.linkedin.com/in/vladislav-romashko-94a89b146/
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

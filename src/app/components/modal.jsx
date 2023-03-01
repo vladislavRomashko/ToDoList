@@ -35,7 +35,7 @@ const Modal = ({ data, onClose, onChange }) => {
 };
 
 Modal.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.object,
   onClose: PropTypes.func,
   onChange: PropTypes.func,
 };

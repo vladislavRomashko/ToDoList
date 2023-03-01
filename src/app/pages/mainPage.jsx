@@ -52,15 +52,9 @@ const MainPage = () => {
   };
 
   const handleChangeStatus = (id, data) => {
-    const newList = toDoList.map((item) => {
-      if (item.id === id) {
-        const changedItem = { ...item, status: data.value };
-        setModalData(changedItem);
-        return changedItem;
-      } else {
-        return item;
-      }
-    });
+    const newList = [...toDoList];
+    const elementIndex = newList.findIndex((e) => e.id === id);
+    newList[elementIndex].status = data.value;
 
     setToDoList(newList);
   };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import TextField from './formFields/textField';
 import { validator } from '../utils/validator';
 import PropTypes from 'prop-types';
@@ -9,12 +9,15 @@ const Form = ({ onSubmit }) => {
   const [data, setData] = useState(initialState);
   const [errors, setErrors] = useState({});
 
-  const handleChange = ({ target }) => {
-    setData((prevState) => ({
-      ...prevState,
-      [target.name]: target.value,
-    }));
-  };
+  const handleChange = useCallback(
+    ({ target }) => {
+      setData((prevState) => ({
+        ...prevState,
+        [target.name]: target.value,
+      }));
+    },
+    [setData]
+  );
 
   const validatorConfig = {
     title: {

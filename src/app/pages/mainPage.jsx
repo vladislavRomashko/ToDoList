@@ -22,8 +22,7 @@ const initialState = [
 
 const MainPage = () => {
   const [toDoList, setToDoList] = useState(initialState);
-  const [modal, setModal] = useState(false);
-  const [modalData, setModalData] = useState({});
+  const [modalData, setModalData] = useState(null);
 
   const handleSubmit = (data) => {
     const newData = {
@@ -42,13 +41,12 @@ const MainPage = () => {
     const id = Number(tr.getAttribute('id'));
     const modalData = toDoList.find((item) => item.id === id);
     setModalData(modalData);
-    setModal(!modal);
 
     return modalData;
   };
 
   const handleModalClose = () => {
-    setModal(!modal);
+    setModalData(null);
   };
 
   const handleChangeStatus = (id, data) => {
@@ -61,7 +59,7 @@ const MainPage = () => {
 
   return (
     <div className="position-relative">
-      {modal && (
+      {modalData && (
         <Modal
           data={modalData}
           onChange={handleChangeStatus}

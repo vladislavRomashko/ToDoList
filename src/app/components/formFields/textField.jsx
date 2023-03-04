@@ -47,4 +47,4 @@ TextField.propTypes = {
   onChange: PropTypes.func,
 };
 
-export default TextField;
+export default React.memo(TextField);

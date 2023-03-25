@@ -1,67 +1,50 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Form from '../components/form';
 import Modal from '../components/modal';
 import Table from '../components/table';
-
-const initialState = [
-  {
-    id: 1,
-    title: 'First ToDo',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi corrupti repellendus saepe iusto amet harum dolorum animi qui, eaque incidunt!',
-    status: false,
-  },
-  {
-    id: 2,
-    title: 'Second ToDo',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Commodi corrupti repellendus saepe iusto amet harum dolorum animi qui, eaque incidunt!',
-    status: true,
-  },
-];
+import { createTask, getTodosList, taskChangedStatus } from '../store/todos';
 
 const MainPage = () => {
-  const [toDoList, setToDoList] = useState(initialState);
-  const [modalData, setModalData] = useState(null);
+  const toDoList = useSelector(getTodosList());
+  const [modalId, setModalId] = useState(null);
 
-  const handleSubmit = (data) => {
-    const newData = {
-      id: toDoList.length + 1,
-      title: data.title,
-      description: data.description,
-      status: false,
-    };
+  const dispatch = useDispatch();
 
-    setToDoList((prevState) => [...prevState, newData]);
-  };
+  const handleSubmit = useCallback(
+    (data) => {
+      const newData = {
+        id: toDoList.length + 1,
+        title: data.title,
+        description: data.description,
+        status: false,
+      };
+
+      dispatch(createTask(newData));
+    },
+    [dispatch]
+  );
 
   const handleItemClick = (e) => {
     if (e.target.tagName === 'INPUT') return;
     let tr = e.target.closest('tr');
     const id = Number(tr.getAttribute('id'));
-    const modalData = toDoList.find((item) => item.id === id);
-    setModalData(modalData);
-
-    return modalData;
+    setModalId(id);
   };
 
   const handleModalClose = () => {
-    setModalData(null);
+    setModalId(null);
   };
 
-  const handleChangeStatus = (id, data) => {
-    const newList = [...toDoList];
-    const elementIndex = newList.findIndex((e) => e.id === id);
-    newList[elementIndex].status = data.value;
-
-    setToDoList(newList);
+  const handleChangeStatus = (id) => {
+    dispatch(taskChangedStatus(id));
   };
 
   return (
     <div className="position-relative">
-      {modalData && (
+      {modalId && (
         <Modal
-          data={modalData}
+          id={modalId}
           onChange={handleChangeStatus}
           onClose={handleModalClose}
         />

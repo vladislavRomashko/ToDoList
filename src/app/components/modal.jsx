@@ -1,9 +1,11 @@
 import React from 'react';
 import CheckBoxField from './formFields/checkBoxField';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { getTodo } from '../store/todos';
 
-const Modal = ({ data, onClose, onChange }) => {
-  const { title, description, status, id } = data;
+const Modal = ({ id: todoId, onClose, onChange }) => {
+  const { title, description, status, id } = useSelector(getTodo(todoId));
 
   return (
     <div className="w-100 h-100  position-absolute  ">
@@ -35,7 +37,7 @@ const Modal = ({ data, onClose, onChange }) => {
 };
 
 Modal.propTypes = {
-  data: PropTypes.object,
+  id: PropTypes.number,
   onClose: PropTypes.func,
   onChange: PropTypes.func,
 };
